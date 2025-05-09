@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Diamond,
@@ -22,22 +22,6 @@ import "swiper/css/pagination";
 
 export default function Home() {
   const navigate = useNavigate();
-  const [promotion, setPromotion] = useState<{ image: string } | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(true);
-
-  useEffect(() => {
-    // Fetch promotion
-    const fetchPromotion = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/promotion");
-        const data = await response.json();
-        setPromotion(data);
-      } catch (error) {
-        console.error("Failed to fetch promotion:", error);
-      }
-    };
-    fetchPromotion();
-  }, []);
 
   const featuredCollections = [
     {
@@ -188,28 +172,6 @@ export default function Home() {
 
   return (
     <div>
-      {/* Temporary Promotion Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg overflow-hidden shadow-lg max-w-lg w-full relative">
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-2 right-2 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-600 transition"
-            >
-              ✕
-            </button>
-            <img
-              src="https://res.cloudinary.com/dcidvttvz/image/upload/v1740777244/logo_ohh01b.jpg"
-              alt="Promotion"
-              className="w-full h-64 object-cover"
-            />
-            <div className="p-4 text-center">
-              <p className="text-gray-700">Enjoy our latest promotion!</p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Hero Section - Reduced height */}
       <section className="h-[60vh] relative bg-gradient-to-br from-green-50 to-emerald-50 flex items-center">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center opacity-10"></div>

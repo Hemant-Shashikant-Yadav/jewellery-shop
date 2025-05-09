@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Diamond, Lock, Mail } from "lucide-react";
-import generateToken from "../../../server/utils/generateToken";
+import { Lock, Mail } from "lucide-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -28,34 +27,25 @@ export default function Login() {
     }
 
     try {
-      // setLoading(true);
+      setLoading(true);
 
-      // const response = await fetch("/api/admin/login", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ email, password }),
-      // });
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      // const data = await response.json();
+      const data = await response.json();
 
-      // if (!response.ok) {
-      //   throw new Error(data.message || "Authentication failed");
-      // }
+      if (!response.ok) {
+        throw new Error(data.message || "Authentication failed");
+      }
 
-      // // Save admin info to local storage
-      // localStorage.setItem("adminInfo", JSON.stringify(data));
+      // Save admin info to local storage
+      localStorage.setItem("adminInfo", JSON.stringify(data));
 
-      localStorage.setItem(
-        "adminInfo",
-        JSON.stringify({
-          _id: "123",
-          name: "Admin",
-          email: "admin@rbjewelers.com",
-        })
-      );
-      localStorage.setItem("adminToken", data.token); // Save the token after login
       // Redirect to dashboard
       navigate("/admin/dashboard");
     } catch (error) {

@@ -8,12 +8,10 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/admin/Login";
 import Dashboard from "./pages/admin/Dashboard";
-import ScrollToTop from "./components/ScrollToTop"; // Import ScrollToTop
 
 function App() {
   return (
     <div className="min-h-screen bg-white">
-      <ScrollToTop /> {/* Add ScrollToTop here */}
       <Routes>
         {/* Admin Routes */}
         <Route path="/admin/login" element={<Login />} />

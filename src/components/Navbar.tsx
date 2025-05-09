@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Diamond, Menu, X, Search, ChevronDown } from "lucide-react";
 
@@ -9,10 +9,6 @@ export default function Navbar() {
   const [isCollectionsMenuOpen, setIsCollectionsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-
-  const womenMenuRef = useRef<HTMLDivElement>(null);
-  const menMenuRef = useRef<HTMLDivElement>(null);
-  const collectionsMenuRef = useRef<HTMLDivElement>(null);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,39 +26,10 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        womenMenuRef.current &&
-        !womenMenuRef.current.contains(event.target as Node)
-      ) {
-        setIsWomenMenuOpen(false);
-      }
-      if (
-        menMenuRef.current &&
-        !menMenuRef.current.contains(event.target as Node)
-      ) {
-        setIsMenMenuOpen(false);
-      }
-      if (
-        collectionsMenuRef.current &&
-        !collectionsMenuRef.current.contains(event.target as Node)
-      ) {
-        setIsCollectionsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   return (
     <header className="bg-white shadow-md fixed w-full z-50">
       <div className="container mx-auto px-4">
-        <nav className="flex items-center justify-between py-2">
+        <nav className="flex items-center justify-between py-6">
           <Link to="/" className="flex items-center space-x-3">
             <img
               src="https://res.cloudinary.com/dcidvttvz/image/upload/v1740777244/logo_ohh01b.jpg"
@@ -93,7 +60,7 @@ export default function Navbar() {
             </Link>
 
             {/* Women's Dropdown */}
-            <div className="relative group" ref={womenMenuRef}>
+            <div className="relative group">
               <button
                 className="flex items-center text-gray-700 hover:text-green-700 transition-colors font-medium"
                 onClick={() => {
@@ -135,7 +102,7 @@ export default function Navbar() {
             </div>
 
             {/* Men's Dropdown */}
-            <div className="relative group" ref={menMenuRef}>
+            <div className="relative group">
               <button
                 className="flex items-center text-gray-700 hover:text-green-700 transition-colors font-medium"
                 onClick={() => {
@@ -177,7 +144,7 @@ export default function Navbar() {
             </div>
 
             {/* Collections Dropdown */}
-            <div className="relative group" ref={collectionsMenuRef}>
+            <div className="relative group">
               <button
                 className="flex items-center text-gray-700 hover:text-green-700 transition-colors font-medium"
                 onClick={() => {
@@ -250,6 +217,173 @@ export default function Navbar() {
             </form>
           </div>
         </nav>
+
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="md:hidden py-4 border-t border-gray-100">
+            <div className="flex flex-col space-y-4">
+              <Link
+                to="/"
+                className="text-gray-700 hover:text-green-700 transition-colors font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Home
+              </Link>
+
+              {/* Mobile Women's Menu */}
+              <div>
+                <button
+                  onClick={() => setIsWomenMenuOpen(!isWomenMenuOpen)}
+                  className="flex items-center justify-between w-full text-gray-700 hover:text-green-700 transition-colors font-medium"
+                >
+                  <span>Women</span>
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+                {isWomenMenuOpen && (
+                  <div className="pl-4 mt-2 space-y-2">
+                    <button
+                      onClick={() => navigateToCollection("Women-Rings")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Rings
+                    </button>
+                    <button
+                      onClick={() => navigateToCollection("Women-Necklaces")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Necklaces
+                    </button>
+                    <button
+                      onClick={() => navigateToCollection("Women-Earrings")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Earrings
+                    </button>
+                    <button
+                      onClick={() => navigateToCollection("Women-Bracelets")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Bracelets
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Men's Menu */}
+              <div>
+                <button
+                  onClick={() => setIsMenMenuOpen(!isMenMenuOpen)}
+                  className="flex items-center justify-between w-full text-gray-700 hover:text-green-700 transition-colors font-medium"
+                >
+                  <span>Men</span>
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+                {isMenMenuOpen && (
+                  <div className="pl-4 mt-2 space-y-2">
+                    <button
+                      onClick={() => navigateToCollection("Men-Rings")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Rings
+                    </button>
+                    <button
+                      onClick={() => navigateToCollection("Men-Necklaces")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Necklaces
+                    </button>
+                    <button
+                      onClick={() => navigateToCollection("Men-Bracelets")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Bracelets
+                    </button>
+                    <button
+                      onClick={() => navigateToCollection("Men-Watches")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Watches
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Collections Menu */}
+              <div>
+                <button
+                  onClick={() =>
+                    setIsCollectionsMenuOpen(!isCollectionsMenuOpen)
+                  }
+                  className="flex items-center justify-between w-full text-gray-700 hover:text-green-700 transition-colors font-medium"
+                >
+                  <span>Collections</span>
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+                {isCollectionsMenuOpen && (
+                  <div className="pl-4 mt-2 space-y-2">
+                    <button
+                      onClick={() => navigateToCollection("Gold")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Gold
+                    </button>
+                    <button
+                      onClick={() => navigateToCollection("Silver")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Silver
+                    </button>
+                    <button
+                      onClick={() => navigateToCollection("Platinum")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Platinum
+                    </button>
+                    <button
+                      onClick={() => navigateToCollection("Diamonds")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Diamonds
+                    </button>
+                    <button
+                      onClick={() => navigateToCollection("Engagement")}
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
+                    >
+                      Engagement
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <Link
+                to="/about"
+                className="text-gray-700 hover:text-green-700 transition-colors font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                About
+              </Link>
+              <Link
+                to="/contact"
+                className="text-gray-700 hover:text-green-700 transition-colors font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Contact
+              </Link>
+
+              {/* Mobile Search */}
+              <form onSubmit={handleSearch} className="relative mt-2">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent w-full"
+                />
+                <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
